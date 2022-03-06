@@ -10,7 +10,7 @@ namespace kitchen_express.Models
         [Display(Name = "Product Id")]
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int ProjectId { get; set; }
+        public int ProductId { get; set; }
 
         [Display(Name = "Product Name")]
         [Required(ErrorMessage = "Product Name cannot be empty")]

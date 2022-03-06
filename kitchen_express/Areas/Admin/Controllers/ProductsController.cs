@@ -37,7 +37,7 @@ namespace kitchen_express.Areas.Admin.Controllers
 
             var product = await _context.Product
                 .Include(p => p.CategoryName)
-                .FirstOrDefaultAsync(m => m.ProjectId == id);
+                .FirstOrDefaultAsync(m => m.ProductId == id);
             if (product == null)
             {
                 return NotFound();
@@ -58,7 +58,7 @@ namespace kitchen_express.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ProjectId,ProductName,ProductDescription,ProductPrice,Image,IsAvailable,CategoryId")] Product product)
+        public async Task<IActionResult> Create([Bind("ProductId,ProductName,ProductDescription,ProductPrice,Image,IsAvailable,CategoryId")] Product product)
         {
             if (ModelState.IsValid)
             {
@@ -92,9 +92,9 @@ namespace kitchen_express.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ProjectId,ProductName,ProductDescription,ProductPrice,Image,IsAvailable,CategoryId")] Product product)
+        public async Task<IActionResult> Edit(int id, [Bind("ProductId,ProductName,ProductDescription,ProductPrice,Image,IsAvailable,CategoryId")] Product product)
         {
-            if (id != product.ProjectId)
+            if (id != product.ProductId)
             {
                 return NotFound();
             }
@@ -108,7 +108,7 @@ namespace kitchen_express.Areas.Admin.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ProductExists(product.ProjectId))
+                    if (!ProductExists(product.ProductId))
                     {
                         return NotFound();
                     }
@@ -133,7 +133,7 @@ namespace kitchen_express.Areas.Admin.Controllers
 
             var product = await _context.Product
                 .Include(p => p.CategoryName)
-                .FirstOrDefaultAsync(m => m.ProjectId == id);
+                .FirstOrDefaultAsync(m => m.ProductId == id);
             if (product == null)
             {
                 return NotFound();
@@ -155,7 +155,7 @@ namespace kitchen_express.Areas.Admin.Controllers
 
         private bool ProductExists(int id)
         {
-            return _context.Product.Any(e => e.ProjectId == id);
+            return _context.Product.Any(e => e.ProductId == id);
         }
     }
 }
