@@ -6,20 +6,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace kitchen_express.Pages
-{
-    public class IndexModel : PageModel
-    {
-        private readonly ILogger<IndexModel> _logger;
+//namespace kitchen_express.Pages
+//{
+//    public class IndexModel : PageModel
+//    {
+//        private readonly ILogger<IndexModel> _logger;
 
-        public IndexModel(ILogger<IndexModel> logger)
-        {
-            _logger = logger;
-        }
+//        public IndexModel(ILogger<IndexModel> logger)
+//        {
+//           // _logger = logger;
+//        }
 
-        public void OnGet()
-        {
+//        public void OnGet()
+//        {
 
-        }
-    }
-}
+//        }
+//    }
+//}
