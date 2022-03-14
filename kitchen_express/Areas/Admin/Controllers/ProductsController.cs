@@ -1,10 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+
 using kitchen_express.Data;
 using kitchen_express.Models;
 
@@ -14,10 +18,14 @@ namespace kitchen_express.Areas.Admin.Controllers
     public class ProductsController : Controller
     {
         private readonly ApplicationDbContext _context;
+        [Obsolete]
+        private readonly IHostingEnvironment _he;
 
-        public ProductsController(ApplicationDbContext context)
+        [Obsolete]
+        public ProductsController(ApplicationDbContext context, IHostingEnvironment he)
         {
             _context = context;
+            _he = he;
         }
 
         // GET: Admin/Products
@@ -58,10 +66,20 @@ namespace kitchen_express.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ProductId,ProductName,ProductDescription,ProductPrice,Image,IsAvailable,CategoryId")] Product product)
+        public async Task<IActionResult> Create([Bind("ProductId,ProductName,ProductDescription,ProductPrice,Image,IsAvailable,CategoryId")] Product product, IFormFile image)
         {
             if (ModelState.IsValid)
             {
+                if (image != null)
+                {
+                    var name = Path.Combine(_he.WebRootPath + "/Images", Path.GetFileName(image.FileName));
+                    await image.CopyToAsync(new FileStream(name, FileMode.Create));
+                    product.Image = "Images/" + image.FileName;
+                }
+                if (image == null)
+                {
+                    product.Image = "Images/noimage.jpg";
+                }
                 _context.Add(product);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -92,7 +110,7 @@ namespace kitchen_express.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ProductId,ProductName,ProductDescription,ProductPrice,Image,IsAvailable,CategoryId")] Product product)
+        public async Task<IActionResult> Edit(int id, [Bind("ProductId,ProductName,ProductDescription,ProductPrice,Image,IsAvailable,CategoryId")] Product product, IFormFile image)
         {
             if (id != product.ProductId)
             {
@@ -101,6 +119,18 @@ namespace kitchen_express.Areas.Admin.Controllers
 
             if (ModelState.IsValid)
             {
+
+                if (image != null)
+                {
+                    var name = Path.Combine(_he.WebRootPath + "/Images", Path.GetFileName(image.FileName));
+                    await image.CopyToAsync(new FileStream(name, FileMode.Create));
+                    product.Image = "Images/" + image.FileName;
+                }
+                if (image == null)
+                {
+                    product.Image = "Images/noimage.JPG";
+                }
+
                 try
                 {
                     _context.Update(product);
@@ -159,3 +189,5 @@ namespace kitchen_express.Areas.Admin.Controllers
         }
     }
 }
+
+

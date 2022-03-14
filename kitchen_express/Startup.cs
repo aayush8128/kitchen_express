@@ -1,9 +1,11 @@
 using kitchen_express.Data;
+using kitchen_express.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -34,6 +36,34 @@ namespace kitchen_express
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddRazorPages();
+            //            services.AddIdentity<MyIdentityUser, MyIdentityRole>(options =>
+            //            {
+            //                options.SignIn.RequireConfirmedAccount = true;
+
+            //                options.Password.RequireLowercase = true;
+            //                options.Password.RequireUppercase = true;
+            //                options.Password.RequireDigit = true;
+            //                options.Password.RequireNonAlphanumeric = true;
+            //                options.Password.RequiredLength = 8;
+            //                options.User.RequireUniqueEmail = true;
+            //            })
+            //          .AddEntityFrameworkStores<ApplicationDbContext>()
+            //          .AddDefaultTokenProviders();
+            //            services.ConfigureApplicationCookie(options =>
+            //            {
+            //                options.LoginPath = "/Identity/Account/Login";
+            //                options.LogoutPath = "/Identity/Account/Logout";
+            //                options.AccessDeniedPath = "/Identity/Account/AccessDenied";
+            //                options.ExpireTimeSpan = TimeSpan.FromMinutes(20);
+            //                options.SlidingExpiration = true;
+            //            });
+            //// register the customized email configuration 
+            //            //services
+            //            //    .AddSingleton<IEmailSender, MyEmailSender>();
+
+
+            //            //services.AddRazorPages();
+            //        }
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -73,6 +103,8 @@ namespace kitchen_express
                     pattern: "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
             });
+
         }
     }
 }
+
